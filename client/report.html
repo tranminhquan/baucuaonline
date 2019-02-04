@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en" ng-app>
+  <head>
+    <title>BẦU CUA ONLINE - BÁO LỖI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
+    <!--angular-->
+    <script src="/js/angular.min.js"></script>
+    
+    <!--socket-->
+    <script src="/socket.io/socket.io.js"></script>
+   
+    
+    <style>
+      /* Remove the navbar's default margin-bottom and rounded borders */ 
+      .navbar {
+        margin-bottom: 0;
+        border-radius: 0;
+      }
+      
+      /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+      .row.content {height: 1000px;}
+      
+      /* Set gray background color and 100% height */
+      .sidenav {
+        padding-top: 20px;
+        background-color: #f1f1f1;
+        height: 100%;
+      }
+      
+      /*list message*/
+      .list_message {
+        white-space: nowrap;
+        overflow-x: hidden;
+        overflow-y: visible;
+        height: 100px;
+      }
+      
+      /*table online*/
+      .table.online {
+        white-space: nowrap;
+        overflow-x: hidden;
+        overflow-y: visible;
+        height: 80px;
+      }
+      
+      /* Set black background color, white text and some padding */
+      footer {
+        background-color: #555;
+        color: white;
+        padding: 15px;
+      }
+      a {
+        color: #aaddff;
+      }
+      
+      /* On small screens, set height to 'auto' for sidenav and grid */
+      @media screen and (max-width: 767px) {
+        .sidenav {
+          height: auto;
+          padding: 15px;
+        }
+        .row.content {height:auto;} 
+      }
+      
+      /* Effect when hover in banbaucua*/
+      .img-thumbnail.banbaucua:hover  {
+        opacity: 0.4;
+      }
+      
+      .middle:active{
+        opacity: 1;
+      }
+    </style>
+    
+    <script>
+      function ChatController($scope, $timeout) {
+        var socket = io.connect();
+        
+        //music
+        $scope.music = [
+          {
+            name: "Ngày xuân long phụng sum vầy - Nhiều ca sĩ",
+            //url: "https://mp3.zing.vn/embed/song/ZWZCUZOF?start=true"
+            url: "https://zmp3-mp3-s1.zadn.vn/e49aa1acdae833b66af9/9206456321125958483?authen=exp=1517617461~acl=/e49aa1acdae833b66af9/*~hmac=c635a3ba3dbeeea38920eb9f16f487aa"
+          },
+          {
+            name: "Một năm mới bình an - Sơn Tùng M-TP",
+            //url: "https://mp3.zing.vn/embed/song/ZW7O9AI7?start=true"
+            url: "https://zmp3-mp3-s1.zadn.vn/207f4efbecbf05e15cae/5848145818697956767?authen=exp=1517410081~acl=/207f4efbecbf05e15cae/*~hmac=f137c103baa37dae9cd4b2fd54dcdad9"
+          },
+          {
+            name: "Mùa Xuân Ơi - Mây Trắng",
+            //url: "https://mp3.zing.vn/embed/song/ZWZA908E?start=true"
+            url: "https://zmp3-mp3-s1.zadn.vn/2a533b20a064493a1075/8915927772504745751?authen=exp=1517399550~acl=/2a533b20a064493a1075/*~hmac=a73062f14bdae65776b14ce586aca5ab"
+          },
+          {
+            name: "Xuân đã về - Mai Lệ Quyên , Đường Tuấn Khang",
+            //url: "https://mp3.zing.vn/embed/song/ZW78FEFI?start=true"
+            url: "https://zmp3-mp3-s1.zadn.vn/e3703739d97d3023696c/8832838047626498591?authen=exp=1517410510~acl=/e3703739d97d3023696c/*~hmac=fde81693891fafaca9bef5199cb4a068"
+          }
+        ];
+        $scope.index_song = 0;
+        
+     
+        //socket event
+        socket.on('connect', function () {
+          console.log("connected to server");
+        });
+        
+        $scope.selectMusic = function(index){
+          $scope.index_song = index;
+          $scope.info = index;
+          $scope.$apply();
+        };
+        
+        var audio = document.getElementById("music_player");
+        audio.onended = function(){
+          if ($scope.index_song == $scope.music.length - 1)
+            $scope.index_song = 0;
+          else
+            $scope.index_song++;
+        };
+        
+      }
+      
+      
+    </script>
+    
+  </head>
+  <body>
+    <div class="container" ng-controller="ChatController">
+      <!--Web-->
+      <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>                        
+          </button>
+          <h3> <font color="white">BẦU CUA ONLINE (Bản thử nghiệm)</font> </h3>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+          
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#"> Giới thiệu </a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+      
+    <div class="container-fluid text-center">    
+      <div class="row content">
+        
+        <div class="col-sm-8 text-left"> 
+        
+          <h1>Thông tin</h3>
+          <h3><span class="glyphicon glyphicon-user"></span> {{name}} </h3>
+          <h3><span class="glyphicon glyphicon-usd"></span> Số tiền hiện có: <span class="label label-info">{{coins}}</<span></h3> 
+          <h3><span class="glyphicon glyphicon-globe"></span> Tổng số người chơi: <span class="label label-info">{{users_info.length}}</span></h3>
+  
+          <hr>
+         
+          <h1>Luật chơi</h1>
+           <ul>
+              <li>Khi bắt đầu nhận được 10 đồng</li>
+              <li>Máy làm cái, mỗi ván có thời gian 60s, mỗi lượt bạn có 30s để đặt bầu cua</li>
+              <li>Đơn vị mỗi lần đặt là 2 đồng</li>
+              <li>Trò chơi chỉ mang tính chất giải trí</li>
+              <li>Đang cập nhật . . .</li>
+            </ul>
+          <hr>
+          
+         
+          
+          <h1>Bàn bầu cua</h1>
+          
+          <!--ban bau cua-->
+          <div class="row">
+            <div class="col-sm-4 text-center">
+              <div class="row">
+                <img class="img-thumbnail banbaucua" src="http://chiase123.com/bau-cua-tom-ca/img/ga.png" alt="ga">
+              </div>
+              <div class="row">
+                <button type="button" class="btn btn-danger" ng-click="decreaseBet(0)">-</button>
+                <span class="label label-info">{{bets[0]}}</span>
+                <button type="button" class="btn btn-success" ng-click="increaseBet(0)">+</button>
+              </div>
+            </div>
+            
+             <div class="col-sm-4  text-center">
+              <div class="row">
+                <img class="img-thumbnail banbaucua" src="http://chiase123.com/bau-cua-tom-ca/img/cua.png" alt="cua">
+              </div>
+              <div class="row">
+                <button type="button" class="btn btn-danger" ng-click="decreaseBet(1)">-</button>
+                <span class="label label-info">{{bets[1]}}</span>
+                <button type="button" class="btn btn-success" ng-click="increaseBet(1)">+</button>
+              </div>
+            </div>
+             <div class="col-sm-4 text-center">
+              <div class="row">
+                <img class="img-thumbnail banbaucua" src="http://chiase123.com/bau-cua-tom-ca/img/nai.png" alt="nai">
+              </div>
+              <div class="row">
+                <button type="button" class="btn btn-danger" ng-click="decreaseBet(2)">-</button>
+                <span class="label label-info">{{bets[2]}}</span>
+                <button type="button" class="btn btn-success" ng-click="increaseBet(2)">+</button>
+              </div>
+            </div>
+          </div>
+          
+           <div class="row">
+            <div class="col-sm-4 text-center">
+              <div class="row">
+                <img class="img-thumbnail banbaucua" src="http://chiase123.com/bau-cua-tom-ca/img/tom.png" alt="tom">
+              </div>
+              <div class="row">
+                <button type="button" class="btn btn-danger" ng-click="decreaseBet(3)">-</button>
+                <span class="label label-info">{{bets[3]}}</span>
+                <button type="button" class="btn btn-success" ng-click="increaseBet(3)">+</button>
+              </div>
+            </div>
+             <div class="col-sm-4 text-center">
+             <div class="row">
+                <img class="img-thumbnail banbaucua" src="http://chiase123.com/bau-cua-tom-ca/img/bau.png" alt="bau">
+              </div>
+              <div class="row">
+                <button type="button" class="btn btn-danger" ng-click="decreaseBet(4)">-</button>
+                <span class="label label-info">{{bets[4]}}</span>
+                <button type="button" class="btn btn-success" ng-click="increaseBet(4)">+</button>
+              </div>
+            </div>
+             <div class="col-sm-4 text-center">
+              <div class="row">
+                <img class="img-thumbnail banbaucua" src="http://chiase123.com/bau-cua-tom-ca/img/ca.png" alt="ca">
+              </div>
+              <div class="row">
+                <button type="button" class="btn btn-danger" ng-click="decreaseBet(5)">-</button>
+                <span class="label label-info">{{bets[5]}}</span>
+                <button type="button" class="btn btn-success" ng-click="increaseBet(5)">+</button>
+              </div>
+            </div>
+          </div>
+     
+    
+        </div>
+        <div class="col-sm-4 sidenav">
+         <h1>{{time}}</h1>
+         <h3> <span class="label label-success" ng-show="openGame"> SÒNG ĐANG MỞ</span> </h3>
+         <h3> <span class="label label-danger" ng-show="!openGame"> SÒNG ĐÃ ĐÓNG</span> </h3> <br>
+         <h3> {{comment}} </h3> <hr>
+            <div class="result">
+               <h3> KẾT QUẢ GIEO XÍ NGẦU</h3>
+              <div class="col-sm-4">
+                <img class="img-thumbnail" ng-src="{{result_1}}">
+              </div>
+              <div class="col-sm-4">
+                <img class="img-thumbnail" ng-src="{{result_2}}">
+              </div>
+              <div class="col-sm-4">
+                <img class="img-thumbnail" ng-src="{{result_3}}">
+                <br> <hr>
+              </div>
+            </div>
+            
+            <div class="online">
+              <h3>THÀNH VIÊN</h3>
+               <table class="table online">
+                <thead>
+                  <tr>
+                    <th>Nickname</th>
+                    <th>Số tiền hiện có</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="userinfo in users_info">
+                    <td ng-bind="userinfo.name"></td>
+                    <td ng-bind="userinfo.coins"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <div class="chat">
+              <hr>
+              <h3>TRÒ CHUYỆN</h3>
+              <div class="panel panel-default text-left" height=300>
+                <div class="panel-heading" >Chat Message</div>
+                <div class="panel-body">
+                  <ul class="list_message">
+                    <li ng-repeat="msg in messages">
+                      <b>{{msg.name}}</b>: {{msg.message}}
+                    </li>
+                  </ul>
+                </div>
+                <div class="panel-footer">
+                  <form ng-submit="sendMessage()">
+                    <input type="text" class="form-control" ng-submit="sendMessage()" ng-model="message" placeholder="Nhập nội dung tin nhắn . . ."/>
+                  </form>
+                </div>
+              </div>
+            </div>
+            
+            <div class="music">
+              <hr>
+              <h3>MUSIC</h3>
+              <audio id="music_player" ng-src="{{music[index_song].url}}" controls autoplay></audio>
+              <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{{music[index_song].name}}
+                <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                  <li><a ng-repeat="m in music" ng-click="selectMusic($index)">{{m.name}}</a></li>
+                </ul>
+              </div>
+            </div>
+        </div>
+        
+      </div>
+ 
+    </div>
+    
+    <footer class="container-fluid text-center">
+      <p> BẦU CUA ONLINE (phiên bản thử nghiệm) </p>
+      <p>Copyright © 2018, Developed by <a target="_blank" href="https://www.facebook.com/profile.php?id=100010191373475">Quan Tran Minh</a></p>
+    </footer>
+      
+    </div>
+  </body>
+</html>

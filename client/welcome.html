@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<body>
+
+<div ng-app="myApp" ng-controller="myCtrl">
+
+<h1>Game bầu cua (test)</h1>
+<h3>Thí chủ cho xin quý danh trước khi quẩy nào</h3>
+<form>
+  <input type="text" name="" ng-model="name"/>
+  <input type="submit" value="Oke" ng-click="showSubmit()"/>
+</form>
+
+<div ng-show="isShow">
+  <h3>Ra vạiiiii! Thí chủ tên {{name}} à. Quất luôn nhé?</h3>
+  <input type="submit" value="okê con dê" href="client/index.html" />
+  <a href="index.html">Click vô</a>
+</div>
+
+</div>
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope) {
+  
+   var socket = io.connect();
+   
+    socket.on('connect', function () {
+          $scope.setName();
+        });
+
+        socket.on('message', function (msg) {
+          $scope.messages.push(msg);
+          $scope.$apply();
+        });
+
+        socket.on('roster', function (names) {
+          $scope.roster = names;
+          $scope.$apply();
+        });
+  
+   $scope.isShow = false;
+   $scope.showSubmit = function(){
+     $scope.isShow = true;
+   };
+  
+});
+</script>
+
+</body>
+</html>
